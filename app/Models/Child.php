@@ -15,17 +15,33 @@ class Child extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'first_name','last_name','email','country_id','birth_date','age',
-        'state_id','city_id','birth_certificate'
+        'first_name',
+        'last_name',
+        'email',
+        'country_id',
+        'birth_date',
+        'age',
+        'state_id',
+        'city_id',
+        'birth_certificate'
     ];
 
-    public function parents()
+    public function parent()
     {
-        return $this->belongsToMany(ParentModel::class, 'child_parent');
+        return $this->belongsToMany(ParentModel::class, 'child_parent', 'child_id', 'parent_id');
     }
 
-    public function country() { return $this->belongsTo(Country::class); }
-    public function state() { return $this->belongsTo(State::class); }
-    public function city() { return $this->belongsTo(City::class); }
-}
 
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+}

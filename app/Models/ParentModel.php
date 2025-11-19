@@ -17,8 +17,18 @@ class ParentModel extends Model
     protected $table = 'parents';
 
     protected $fillable = [
-        'first_name','last_name','email','country_id','birth_date','age',
-        'state_id','city_id','residential_proof','profile_image','education','occupation'
+        'first_name',
+        'last_name',
+        'email',
+        'country_id',
+        'birth_date',
+        'age',
+        'state_id',
+        'city_id',
+        'residential_proof',
+        'profile_image',
+        'education',
+        'occupation'
     ];
 
     protected $casts = [
@@ -27,11 +37,20 @@ class ParentModel extends Model
 
     public function children()
     {
-        return $this->belongsToMany(Child::class, 'child_parent');
+        return $this->belongsToMany(Child::class, 'child_parent', 'parent_id', 'child_id');
     }
 
-    public function country() { return $this->belongsTo(Country::class); }
-    public function state() { return $this->belongsTo(State::class); }
-    public function city() { return $this->belongsTo(City::class); }
-}
 
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+}

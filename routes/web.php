@@ -15,7 +15,7 @@ Route::middleware('guest')->group(function () {
 // Authenticated routes
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        return view('parents.index');
     })->name('dashboard');
 
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -37,9 +37,12 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('children')->group(function () {
-        Route::get('/', [ChildController::class, 'index']);
-        Route::post('/', [ChildController::class, 'store']);
+        Route::get('/', [ChildController::class, 'view']);
+        Route::get('/create', [ChildController::class, 'create']);
+        Route::post('/store', [ChildController::class, 'store']);
         Route::get('{id}', [ChildController::class, 'show']);
+
+        Route::get('{id}', [ChildController::class, 'edit']);
         Route::put('{id}', [ChildController::class, 'update']);
         Route::delete('{id}', [ChildController::class, 'destroy']);
         Route::post('{id}/restore', [ChildController::class, 'restore']);

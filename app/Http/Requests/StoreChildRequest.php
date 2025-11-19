@@ -27,7 +27,7 @@ class StoreChildRequest extends FormRequest
             'email' => 'required|email|unique:parents,email',
             'country_id' => 'required|exists:countries,id',
             'birth_date' => 'required|date',
-            'age' => 'required|integer|min:0',
+            // 'age' => 'required|integer|min:0',
             'state_id' => 'required|exists:states,id',
             'city_id' => 'required|exists:cities,id',
             'birth_certificate' => 'nullable|file|mimes:jpg,png,pdf',

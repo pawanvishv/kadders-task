@@ -1,35 +1,40 @@
+async function fetchChildParent(id) {
+    axios
+        .get(`/fetchChildParent?child=no`, {
+            headers: {
+                Accept: "application/json",
+            },
+        })
+        .then((response) => {
+            const users = response.data.data;
+            const select = document.getElementById(`c${id}-parents`);
+            const selectChildren = document.getElementById(`c${id}-children`);
+            select.innerHTML = "";
+            if (selectChildren) selectChildren.innerHTML = "";
 
-function fetchChildParent(parentId) {
-    axios.get(`/fetchChildParent?child=yes`, {
-        headers: {
-            'Accept': 'application/json'
-        }
-    })
-    .then(response => {
-        const children = response.data; // assume API returns array of children objects
-        const select = document.getElementById(`p${parentId}-children`);
+            users.forEach((user) => {
+                const option = document.createElement("option");
+                option.value = user.id;
+                option.textContent = `${user.first_name} ${user.last_name}`;
+                select.appendChild(option);
+            });
 
-        // Clear existing options
-        select.innerHTML = '';
+            if (selectChildren) {
+                users.forEach((user) => {
+                    const option = document.createElement("option");
+                    option.value = user.id;
+                    option.textContent = `${user.first_name} ${user.last_name}`;
+                    selectChildren.appendChild(option);
+                });
+            }
 
-        // Populate options
-        children.forEach(child => {
-            const option = document.createElement('option');
-            option.value = child.id;      // child ID
-            option.textContent = child.name; // child name
-            select.appendChild(option);
+            $(select).select2({ width: "100%" }).trigger("change");
+            if (selectChildren)
+                $(selectChildren).select2({ width: "100%" }).trigger("change");
+        })
+        .catch((error) => {
+            console.error("Error fetching children:", error);
         });
-
-        // Initialize or refresh select2
-        if ($(select).hasClass("select2-hidden-accessible")) {
-            $(select).select2().trigger('change');
-        } else {
-            $(select).select2();
-        }
-    })
-    .catch(error => {
-        console.error('Error fetching children:', error);
-    });
 }
 
 const app = {
@@ -182,15 +187,15 @@ const app = {
                 console.log(result.data.id)
                 const parentInput = document.getElementsByClassName('parent-id');
                 parentInput.value = result.data.id;
-                document.querySelectorAll('.parent-hide').forEach(el => {
-                    el.style.display = 'none'; // hide
-                });
+                // document.querySelectorAll('.parent-hide').forEach(el => {
+                //     el.style.display = 'none'; // hide
+                // });
 
-                document.querySelectorAll('.children-hide').forEach(el => {
-                    el.style.display = 'block';
-                });
+                // document.querySelectorAll('.children-hide').forEach(el => {
+                //     el.style.display = 'block';
+                // });
                 showToast("Parents Data submitted");
-                showToast("Please fill the child form");
+                // showToast("Please fill the child form");
             } else {
                 showToast("Error: " + (result.message || "Unknown error") , "error");
             }
@@ -435,7 +440,7 @@ const app = {
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">Country *</label>
-                                <select class="form-select" onchange="app.updateStates(this, 'p${id}')" required>
+                                <select class="form-select" onchange="app.updateStates(this, 'c${id}')" required>
                                         <option value="">Select</option>
                                         ${this.countries
                                             .map(
@@ -447,7 +452,7 @@ const app = {
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">State *</label>
-                                <select class="form-select" id="p${id}-state" onchange="app.updateCities(this, 'p${id}')" required>
+                                <select class="form-select" id="c${id}-state" onchange="app.updateCities(this, 'c${id}')" required>
                                     <option value="">Select</option>
                                 </select>
                             </div>

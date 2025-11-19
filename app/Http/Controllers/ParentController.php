@@ -20,10 +20,9 @@ class ParentController extends Controller
             $query = ParentModel::with(['children', 'country', 'state', 'city']);
             return DataTables::of($query)
                 ->addColumn('action', function ($row) {
-                    $editUrl = route('parents', $row->id);
-                    $deleteUrl = route('parents', $row->id);
+                    $editUrl = 'parents/' . $row->id;
+                    $deleteUrl = 'parents/' . $row->id;
                     return '
-                    <a href="/contacts/' . $row->id . '" id="show-contacts" class="btn btn-sm btn-warning me-1">View</a> |
                     <a href="' . $editUrl . '" class="btn btn-sm btn-warning me-1">Edit</a>
                     <button type="submit" data-url="' . $deleteUrl . '" id="delete-contacts" class="btn btn-sm btn-danger">Delete</button>';
                 })
@@ -154,7 +153,13 @@ class ParentController extends Controller
     }
 
     public function fetchChildParent() {
-        $data = Child::get();
+
+        if (request()->get('child') == 'yes') {
+            $data = Child::get();
+        } else {
+             $data = ParentModel::get();
+        }
+
         return response()->json([
                 'message' => 'Fetch succesfully successfully',
                 'data' => $data
