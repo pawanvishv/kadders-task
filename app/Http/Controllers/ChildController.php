@@ -94,6 +94,11 @@ class ChildController extends Controller
         return Child::with(['parents', 'country', 'state', 'city'])->findOrFail($id);
     }
 
+    public function edit($id)
+    {
+        return view('children.edit', ['id' => $id]);
+    }
+
     public function update(UpdateChildRequest $request, $id)
     {
         try {

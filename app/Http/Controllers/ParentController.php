@@ -91,6 +91,11 @@ class ParentController extends Controller
         return ParentModel::with(['children', 'country', 'state', 'city'])->findOrFail($id);
     }
 
+    public function edit($id)
+    {
+        return view('parents.edit', ['id' => $id]);
+    }
+
     public function update(UpdateParentRequest $request, $id)
     {
         try {

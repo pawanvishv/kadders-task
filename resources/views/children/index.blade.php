@@ -5,7 +5,7 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                         <div class="header-title">
-                            <h4 class="card-title">Contacts</h4>
+                            <h4 class="card-title">Children</h4>
                             <a href="{{ url('children/create') }}"
                                 class="btn btn-outline-primary rounded-pill mt-2 btn-with-icon right">
                                 <i class="ri-heart-line"></i>

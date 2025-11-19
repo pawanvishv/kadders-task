@@ -29,7 +29,7 @@ Route::middleware('auth')->group(function () {
         Route::post('store', [ParentController::class, 'store']);
         Route::get('{id}/show', [ParentController::class, 'show']);
 
-        Route::get('{id}', [ParentController::class, 'edit']);
+        Route::get('{id}/edit', [ParentController::class, 'edit']);
         Route::put('{id}', [ParentController::class, 'update']);
         Route::delete('{id}', [ParentController::class, 'destroy']);
         Route::post('{id}/restore', [ParentController::class, 'restore']);
@@ -42,7 +42,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/store', [ChildController::class, 'store']);
         Route::get('{id}', [ChildController::class, 'show']);
 
-        Route::get('{id}', [ChildController::class, 'edit']);
+        Route::get('{id}/edit', [ChildController::class, 'edit']);
         Route::put('{id}', [ChildController::class, 'update']);
         Route::delete('{id}', [ChildController::class, 'destroy']);
         Route::post('{id}/restore', [ChildController::class, 'restore']);
