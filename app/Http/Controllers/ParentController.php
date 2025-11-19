@@ -20,7 +20,7 @@ class ParentController extends Controller
             $query = ParentModel::with(['children', 'country', 'state', 'city']);
             return DataTables::of($query)
                 ->addColumn('action', function ($row) {
-                    $editUrl = 'parents/' . $row->id;
+                    $editUrl = 'parents/' . $row->id . '/edit';
                     $deleteUrl = 'parents/' . $row->id;
                     return '
                     <a href="' . $editUrl . '" class="btn btn-sm btn-warning me-1">Edit</a>

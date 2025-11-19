@@ -20,7 +20,7 @@ class ChildController extends Controller
             $query = Child::with(['parent', 'country', 'state', 'city']);
             return DataTables::of($query)
                 ->addColumn('action', function ($row) {
-                    $editUrl = 'children/' . $row->id;
+                    $editUrl = 'children/' . $row->id . '/edit';
                     $deleteUrl = 'children/' . $row->id;
                     return '
                     <a href="' . $editUrl . '" class="btn btn-sm btn-warning me-1">Edit</a>
@@ -91,7 +91,7 @@ class ChildController extends Controller
 
     public function show($id)
     {
-        return Child::with(['parents', 'country', 'state', 'city'])->findOrFail($id);
+        return Child::with(['parent', 'country', 'state', 'city'])->findOrFail($id);
     }
 
     public function edit($id)
