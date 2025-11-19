@@ -25,7 +25,7 @@
                                     <div class="col-lg-12">
                                         <div class="form-group">
                                             <label class="text-secondary">Email</label>
-                                            <input class="form-control" type="email" placeholder="Enter Email">
+                                            <input class="form-control" name="email" type="email" placeholder="Enter Email">
                                         </div>
                                     </div>
                                     <div class="col-lg-12 mt-2">
@@ -34,11 +34,11 @@
                                                 <label class="text-secondary">Password</label>
                                                 {{-- <label><a href="auth-recover-pwd.html">Forgot Password?</a></label> --}}
                                             </div>
-                                            <input class="form-control" type="password" placeholder="Enter Password">
+                                            <input class="form-control" name="password" type="password" placeholder="Enter Password">
                                         </div>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary btn-block mt-2">Log In</button>
+                                <button type="submit" class="loginButton btn btn-primary btn-block mt-2">Log In</button>
                             </form>
                         </div>
                     </div>

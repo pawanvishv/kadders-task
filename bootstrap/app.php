@@ -11,7 +11,21 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Register middleware aliases
+        $middleware->alias([
+            'auth' => \App\Http\Middleware\Authenticate::class,
+            'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+            'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+            'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        ]);
+
+        // Configure trusted proxies if behind load balancer/proxy
+        $middleware->trustProxies(at: '*');
+
+        // Encrypt cookies
+        $middleware->encryptCookies(except: [
+            // Add any cookies that shouldn't be encrypted
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
