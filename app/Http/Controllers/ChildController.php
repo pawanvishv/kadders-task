@@ -7,6 +7,7 @@ use App\Models\Child;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
+use App\Jobs\SendParentNotificationJob;
 use App\Http\Requests\StoreChildRequest;
 use App\Http\Requests\UpdateChildRequest;
 use Illuminate\Validation\ValidationException;
@@ -23,7 +24,11 @@ class ChildController extends Controller
                     $deleteUrl = 'children/' . $row->id;
                     return '
                     <a href="' . $editUrl . '" class="btn btn-sm btn-warning me-1">Edit</a>
-                    <button type="submit" data-url="' . $deleteUrl . '" id="delete-contacts" class="btn btn-sm btn-danger">Delete</button>';
+                    <form action="' . $deleteUrl . '" method="POST" style="display:inline-block;" onsubmit="return confirm(\'Are you sure you want to delete this record?\');">
+                        ' . csrf_field() . '
+                        ' . method_field('DELETE') . '
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>';
                 })
                 ->rawColumns(['action'])
                 ->make(true);
@@ -64,6 +69,7 @@ class ChildController extends Controller
 
             if ($request->parents) {
                 $child->parents()->attach($request->parents);
+                SendParentNotificationJob::dispatch($child, $request->parents)->delay(now()->addMinutes(5));
             }
 
             return response()->json([
@@ -133,7 +139,7 @@ class ChildController extends Controller
     {
         $child = Child::findOrFail($id);
         $child->delete(); // soft delete
-        return response()->json(['message' => 'Parent deleted successfully']);
+        return back();
     }
 
     public function restore($id)

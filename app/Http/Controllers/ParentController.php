@@ -24,7 +24,11 @@ class ParentController extends Controller
                     $deleteUrl = 'parents/' . $row->id;
                     return '
                     <a href="' . $editUrl . '" class="btn btn-sm btn-warning me-1">Edit</a>
-                    <button type="submit" data-url="' . $deleteUrl . '" id="delete-contacts" class="btn btn-sm btn-danger">Delete</button>';
+                    <form action="' . $deleteUrl . '" method="POST" style="display:inline-block;" onsubmit="return confirm(\'Are you sure you want to delete this record?\');">
+                        ' . csrf_field() . '
+                        ' . method_field('DELETE') . '
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>';
                 })
                 ->rawColumns(['action'])
                 ->make(true);
@@ -135,7 +139,7 @@ class ParentController extends Controller
     {
         $parent = ParentModel::findOrFail($id);
         $parent->delete(); // soft delete
-        return response()->json(['message' => 'Parent deleted successfully']);
+        return back();
     }
 
     public function restore($id)
